@@ -1,4 +1,3 @@
-import tensorflow as tf
 from main import *
 
 model = tf.keras.models.load_model('handwritten.keras')
