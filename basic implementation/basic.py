@@ -5,7 +5,7 @@
 
 import numpy as np
 import pandas as pd
-data = pd.read_csv('train.csv')
+data = pd.read_csv('../digits/train.csv')
 data = np.array(data)
 m, n = data.shape
 

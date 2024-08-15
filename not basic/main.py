@@ -4,7 +4,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-mnist = np.load('mnist.npz')
+mnist = np.load('../digits/mnist.npz')
 (x_train, y_train) = mnist['x_train'], mnist['y_train']
 (x_test, y_test) = mnist['x_test'], mnist['y_test']
 
