@@ -23,8 +23,6 @@ X_train = data_train[1:n]
 X_train = X_train / 255.
 _, m_train = X_train.shape
 
-print(X_train.shape)
-
 def init_parameters():
     W1 = np.random.rand(128, 784) - 0.5
     b1 = np.random.rand(128, 1) - 0.5
@@ -65,33 +63,24 @@ def forward_prop(w1, b1, w2, b2, w3, b3,  X):
 def recLu_derivative(Z):
     return Z > 0
 
-# def backward_prop(Z1, A1, Z2, A2, W1, W2, X, Y):
-#     one_hot_Y = one_hot(Y)
-#     dZ2 = A2 - one_hot_Y
-#     dW2 = 1 / m * dZ2.dot(A1.T)
-#     db2 = 1 / m * np.sum(dZ2)
-#     dZ1 = W2.T.dot(dZ2) * recLu_derivative(Z1)
-#     dW1 = 1 / m * dZ1.dot(X.T)
-#     db1 = 1 / m * np.sum(dZ1)
-#     return dW1, db1, dW2, db2
-
 def backward_prop(Z1, A1, Z2, A2, Z3, A3, W1, W2, W3, X, Y):
     m = X.shape[1]  # Number of samples
+    inv_m = (1/m)
     one_hot_Y = one_hot(Y)
 
     dZ3 = A3 - one_hot_Y
-    dW3 = 1 / m * np.dot(dZ3, A2.T)
-    db3 = 1 / m * np.sum(dZ3, axis=1, keepdims=True)
+    dW3 = inv_m * np.dot(dZ3, A2.T)
+    db3 = inv_m * np.sum(dZ3, axis=1, keepdims=True)
 
     dA2 = np.dot(W3.T, dZ3)
     dZ2 = dA2 * recLu_derivative(Z2)
-    dW2 = 1 / m * np.dot(dZ2, A1.T)
-    db2 = 1 / m * np.sum(dZ2, axis=1, keepdims=True)
+    dW2 = inv_m * np.dot(dZ2, A1.T)
+    db2 = inv_m * np.sum(dZ2, axis=1, keepdims=True)
 
     dA1 = np.dot(W2.T, dZ2)
     dZ1 = dA1 * recLu_derivative(Z1)
-    dW1 = 1 / m * np.dot(dZ1, X.T)
-    db1 = 1 / m * np.sum(dZ1, axis=1, keepdims=True)
+    dW1 = inv_m * np.dot(dZ1, X.T)
+    db1 = inv_m * np.sum(dZ1, axis=1, keepdims=True)
 
     return dW1, db1, dW2, db2, dW3, db3
 
